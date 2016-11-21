@@ -210,7 +210,7 @@ public class GrupoJpaController implements Serializable {
     public int getMaxId()
     {
         EntityManager em = getEntityManager();
-        Query query = em.createNativeQuery("SELECT MAX(grupo_id) FROM grupo");
+        Query query = em.createNativeQuery("SELECT MAX(grupo_id),MIN(grupo_id) FROM grupo");
         List<Object[]> results = query.getResultList();
         BigDecimal max = (BigDecimal) results.get(0)[0];
         

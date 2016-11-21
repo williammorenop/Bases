@@ -209,7 +209,7 @@ public class CrearGrupo extends javax.swing.JFrame {
 				
                               int[] users = jTable1.getSelectedRows();
                               String name = jTextField1.getText();
-                              String estado = "BIEN";
+                              String estado = "activo";
                               short idMiembro = (short)controladorMiembro.getMaxId();
                               short idGrupo = (short)controladorGrupo.getMaxId();
                               idGrupo++;
@@ -231,6 +231,8 @@ public class CrearGrupo extends javax.swing.JFrame {
                                 miembro.setUsuarioNickName( new Usuario((String)matriz[ i ][ 0 ]) );
                                   try {
                                       controladorMiembro.create(miembro);
+                                       System.out.println("se creo el miembro "+ idMiembro);
+
                                   } catch (Exception ex) {
                                       Logger.getLogger(CrearGrupo.class.getName()).log(Level.SEVERE, null, ex);
                                   }
@@ -238,11 +240,11 @@ public class CrearGrupo extends javax.swing.JFrame {
                                  
                                   try {
                                       controladorHistorial.create( new Historial(gc.getTime(),idMiembro,idGrupo,tipo) ) ;
+                                                                      System.out.println("se creo el Historial "+ idMiembro + " " + idGrupo +" "+tipo);
+
                                   } catch (Exception ex) {
                                       Logger.getLogger(CrearGrupo.class.getName()).log(Level.SEVERE, null, ex);
                                   }
-                                 System.out.println("se creo el miembro "+ idMiembro);
-                                System.out.println("se creo el Historial "+ idMiembro + " " + idGrupo +" "+tipo);
 
                             }
                             tipo = 1;
@@ -252,6 +254,8 @@ public class CrearGrupo extends javax.swing.JFrame {
                                 miembro.setUsuarioNickName( new Usuario(user) );
                                   try {
                                       controladorMiembro.create(miembro);
+                                       System.out.println("se creo el miembro "+ idMiembro);
+
                                   } catch (Exception ex) {
                                       Logger.getLogger(CrearGrupo.class.getName()).log(Level.SEVERE, null, ex);
                                   }
@@ -259,12 +263,12 @@ public class CrearGrupo extends javax.swing.JFrame {
                                  
                                   try {
                                       controladorHistorial.create( new Historial(gc.getTime(),idMiembro,idGrupo,tipo) ) ;
+                                        System.out.println("se creo el Historial "+ idMiembro + " " + idGrupo +" "+tipo);
+
                                   } catch (Exception ex) {
                                       Logger.getLogger(CrearGrupo.class.getName()).log(Level.SEVERE, null, ex);
                                   }
                              
-                                 System.out.println("se creo el miembro "+ idMiembro);
-                                System.out.println("se creo el Historial "+ idMiembro + " " + idGrupo +" "+tipo);
                         }
 		});
     }

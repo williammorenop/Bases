@@ -347,7 +347,7 @@ public class MiembroJpaController implements Serializable {
      public int getMaxId()
     {
         EntityManager em = getEntityManager();
-        Query query = em.createNativeQuery("SELECT MAX(Miembro_id) FROM miembro");
+        Query query = em.createNativeQuery("SELECT MAX(Miembro_id),MIN(Miembro_id) FROM miembro");
         List<Object[]> results = query.getResultList();
         BigDecimal max = (BigDecimal) results.get(0)[0];
         
