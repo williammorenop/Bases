@@ -95,7 +95,8 @@ public class ventanalogin {
                                 JOptionPane.showMessageDialog(null, "EXITO!!","Inicio de sesion exitoso.",JOptionPane.INFORMATION_MESSAGE);
                                // menu ventanamenu= new menu();
            			//ventanamenu.frame.setVisible(true);
-                                menu2 menu=new menu2(textField.getText());
+                                menu3 menu=new menu3(textField.getText());
+                                menu.setVisible(true);
               
                             
                             }
@@ -111,6 +112,7 @@ public class ventanalogin {
 		
 		JLabel lblIncorrecto = new JLabel("INCORRECTO!!");
 		lblIncorrecto.setEnabled(false);
+                lblIncorrecto.setVisible(false);
 		lblIncorrecto.setForeground(Color.RED);
 		lblIncorrecto.setBounds(265, 153, 115, 14);
 		frame.getContentPane().add(lblIncorrecto);
