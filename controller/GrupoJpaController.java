@@ -15,6 +15,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import entities.Historial;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -205,5 +206,13 @@ public class GrupoJpaController implements Serializable {
             em.close();
         }
     }
-    
+    public int getMaxId()
+    {
+        EntityManager em = getEntityManager();
+        Query query = em.createNativeQuery("SELECT MAX(grupo_id) FROM grupo");
+        List<Object[]> results = query.getResultList();
+        BigDecimal max = (BigDecimal) results.get(0)[0];
+        
+        return Integer.parseInt(max.toString());
+    }
 }

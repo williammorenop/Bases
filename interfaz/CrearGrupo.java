@@ -8,6 +8,8 @@ package interfaz;
 
 import controller.UsuarioJpaController;
 import entities.Usuario;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -34,6 +36,7 @@ public class CrearGrupo extends javax.swing.JFrame {
     public CrearGrupo( String user ) {
         initComponents();
         this.crearTablaInfo(user);
+        
     }
 
     /**
@@ -179,6 +182,20 @@ public class CrearGrupo extends javax.swing.JFrame {
                 this.jTable1.setModel( model );
                 repaint();
 	}
+    
+    private void other( String user)
+    {
+        
+        this.jButton1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+                              int[] users = jTable1.getSelectedRows();
+                              String name = jTextField1.getText();
+                              String estado = "BIEN";
+                        }
+		});
+    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
