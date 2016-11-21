@@ -2,6 +2,7 @@ package GUI;
 
 import controller.GrupoJpaController;
 import controller.UsuarioJpaController;
+import entities.Retornomainmentu;
 import entities.Usuario;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -36,7 +37,7 @@ public class NewClass {
         System.err.print("INGRSE Clave: ");
         Password=br.readLine();
         System.out.println(Login(nickname, Password, controlador));*/
-        
+/*        
         EntityManagerFactory emf1 = Persistence.createEntityManagerFactory("finalPU");
         GrupoJpaController controlador1 = new GrupoJpaController(emf1);
         
@@ -48,7 +49,15 @@ public class NewClass {
         {
             System.out.println(k+"\n");
         }
-        
+  */
+
+  List <Retornomainmentu> j = controlador.mainmenu("pero");
+  
+   for (Retornomainmentu k : j)
+        {
+            System.out.println(k.getId()+"\t"+k.getSuma()+"\n");
+        }
+  
         
         
     }
