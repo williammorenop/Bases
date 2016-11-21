@@ -14,17 +14,17 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import entities.Miembro;
+import java.util.ArrayList;
+import java.util.List;
 import entities.Historial;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
 /**
  *
- * @author willi
+ * @author johanmurillo
  */
 public class GrupoJpaController implements Serializable {
 
@@ -38,6 +38,9 @@ public class GrupoJpaController implements Serializable {
     }
 
     public void create(Grupo grupo) throws PreexistingEntityException, Exception {
+        if (grupo.getMiembroList() == null) {
+            grupo.setMiembroList(new ArrayList<Miembro>());
+        }
         if (grupo.getHistorialList() == null) {
             grupo.setHistorialList(new ArrayList<Historial>());
         }
@@ -45,6 +48,12 @@ public class GrupoJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
+            List<Miembro> attachedMiembroList = new ArrayList<Miembro>();
+            for (Miembro miembroListMiembroToAttach : grupo.getMiembroList()) {
+                miembroListMiembroToAttach = em.getReference(miembroListMiembroToAttach.getClass(), miembroListMiembroToAttach.getMiembroId());
+                attachedMiembroList.add(miembroListMiembroToAttach);
+            }
+            grupo.setMiembroList(attachedMiembroList);
             List<Historial> attachedHistorialList = new ArrayList<Historial>();
             for (Historial historialListHistorialToAttach : grupo.getHistorialList()) {
                 historialListHistorialToAttach = em.getReference(historialListHistorialToAttach.getClass(), historialListHistorialToAttach.getHistorialPK());
@@ -52,6 +61,15 @@ public class GrupoJpaController implements Serializable {
             }
             grupo.setHistorialList(attachedHistorialList);
             em.persist(grupo);
+            for (Miembro miembroListMiembro : grupo.getMiembroList()) {
+                Grupo oldGrupoGrupoIdOfMiembroListMiembro = miembroListMiembro.getGrupoGrupoId();
+                miembroListMiembro.setGrupoGrupoId(grupo);
+                miembroListMiembro = em.merge(miembroListMiembro);
+                if (oldGrupoGrupoIdOfMiembroListMiembro != null) {
+                    oldGrupoGrupoIdOfMiembroListMiembro.getMiembroList().remove(miembroListMiembro);
+                    oldGrupoGrupoIdOfMiembroListMiembro = em.merge(oldGrupoGrupoIdOfMiembroListMiembro);
+                }
+            }
             for (Historial historialListHistorial : grupo.getHistorialList()) {
                 Grupo oldGrupoOfHistorialListHistorial = historialListHistorial.getGrupo();
                 historialListHistorial.setGrupo(grupo);
@@ -80,9 +98,19 @@ public class GrupoJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Grupo persistentGrupo = em.find(Grupo.class, grupo.getGrupoId());
+            List<Miembro> miembroListOld = persistentGrupo.getMiembroList();
+            List<Miembro> miembroListNew = grupo.getMiembroList();
             List<Historial> historialListOld = persistentGrupo.getHistorialList();
             List<Historial> historialListNew = grupo.getHistorialList();
             List<String> illegalOrphanMessages = null;
+            for (Miembro miembroListOldMiembro : miembroListOld) {
+                if (!miembroListNew.contains(miembroListOldMiembro)) {
+                    if (illegalOrphanMessages == null) {
+                        illegalOrphanMessages = new ArrayList<String>();
+                    }
+                    illegalOrphanMessages.add("You must retain Miembro " + miembroListOldMiembro + " since its grupoGrupoId field is not nullable.");
+                }
+            }
             for (Historial historialListOldHistorial : historialListOld) {
                 if (!historialListNew.contains(historialListOldHistorial)) {
                     if (illegalOrphanMessages == null) {
@@ -94,6 +122,13 @@ public class GrupoJpaController implements Serializable {
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
+            List<Miembro> attachedMiembroListNew = new ArrayList<Miembro>();
+            for (Miembro miembroListNewMiembroToAttach : miembroListNew) {
+                miembroListNewMiembroToAttach = em.getReference(miembroListNewMiembroToAttach.getClass(), miembroListNewMiembroToAttach.getMiembroId());
+                attachedMiembroListNew.add(miembroListNewMiembroToAttach);
+            }
+            miembroListNew = attachedMiembroListNew;
+            grupo.setMiembroList(miembroListNew);
             List<Historial> attachedHistorialListNew = new ArrayList<Historial>();
             for (Historial historialListNewHistorialToAttach : historialListNew) {
                 historialListNewHistorialToAttach = em.getReference(historialListNewHistorialToAttach.getClass(), historialListNewHistorialToAttach.getHistorialPK());
@@ -102,6 +137,17 @@ public class GrupoJpaController implements Serializable {
             historialListNew = attachedHistorialListNew;
             grupo.setHistorialList(historialListNew);
             grupo = em.merge(grupo);
+            for (Miembro miembroListNewMiembro : miembroListNew) {
+                if (!miembroListOld.contains(miembroListNewMiembro)) {
+                    Grupo oldGrupoGrupoIdOfMiembroListNewMiembro = miembroListNewMiembro.getGrupoGrupoId();
+                    miembroListNewMiembro.setGrupoGrupoId(grupo);
+                    miembroListNewMiembro = em.merge(miembroListNewMiembro);
+                    if (oldGrupoGrupoIdOfMiembroListNewMiembro != null && !oldGrupoGrupoIdOfMiembroListNewMiembro.equals(grupo)) {
+                        oldGrupoGrupoIdOfMiembroListNewMiembro.getMiembroList().remove(miembroListNewMiembro);
+                        oldGrupoGrupoIdOfMiembroListNewMiembro = em.merge(oldGrupoGrupoIdOfMiembroListNewMiembro);
+                    }
+                }
+            }
             for (Historial historialListNewHistorial : historialListNew) {
                 if (!historialListOld.contains(historialListNewHistorial)) {
                     Grupo oldGrupoOfHistorialListNewHistorial = historialListNewHistorial.getGrupo();
@@ -143,6 +189,13 @@ public class GrupoJpaController implements Serializable {
                 throw new NonexistentEntityException("The grupo with id " + id + " no longer exists.", enfe);
             }
             List<String> illegalOrphanMessages = null;
+            List<Miembro> miembroListOrphanCheck = grupo.getMiembroList();
+            for (Miembro miembroListOrphanCheckMiembro : miembroListOrphanCheck) {
+                if (illegalOrphanMessages == null) {
+                    illegalOrphanMessages = new ArrayList<String>();
+                }
+                illegalOrphanMessages.add("This Grupo (" + grupo + ") cannot be destroyed since the Miembro " + miembroListOrphanCheckMiembro + " in its miembroList field has a non-nullable grupoGrupoId field.");
+            }
             List<Historial> historialListOrphanCheck = grupo.getHistorialList();
             for (Historial historialListOrphanCheckHistorial : historialListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
@@ -207,7 +260,7 @@ public class GrupoJpaController implements Serializable {
             em.close();
         }
     }
-    public int getMaxId()
+     public int getMaxId()
     {
         EntityManager em = getEntityManager();
         Query query = em.createNativeQuery("SELECT MAX(grupo_id),MIN(grupo_id) FROM grupo");

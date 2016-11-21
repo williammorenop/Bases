@@ -13,6 +13,7 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import entities.Grupo;
 import entities.Usuario;
 import entities.Miembroxtransaccion;
 import java.util.ArrayList;
@@ -53,6 +54,11 @@ public class MiembroJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
+            Grupo grupoGrupoId = miembro.getGrupoGrupoId();
+            if (grupoGrupoId != null) {
+                grupoGrupoId = em.getReference(grupoGrupoId.getClass(), grupoGrupoId.getGrupoId());
+                miembro.setGrupoGrupoId(grupoGrupoId);
+            }
             Usuario usuarioNickName = miembro.getUsuarioNickName();
             if (usuarioNickName != null) {
                 usuarioNickName = em.getReference(usuarioNickName.getClass(), usuarioNickName.getNickName());
@@ -77,6 +83,10 @@ public class MiembroJpaController implements Serializable {
             }
             miembro.setHistorialList(attachedHistorialList);
             em.persist(miembro);
+            if (grupoGrupoId != null) {
+                grupoGrupoId.getMiembroList().add(miembro);
+                grupoGrupoId = em.merge(grupoGrupoId);
+            }
             if (usuarioNickName != null) {
                 usuarioNickName.getMiembroList().add(miembro);
                 usuarioNickName = em.merge(usuarioNickName);
@@ -127,6 +137,8 @@ public class MiembroJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Miembro persistentMiembro = em.find(Miembro.class, miembro.getMiembroId());
+            Grupo grupoGrupoIdOld = persistentMiembro.getGrupoGrupoId();
+            Grupo grupoGrupoIdNew = miembro.getGrupoGrupoId();
             Usuario usuarioNickNameOld = persistentMiembro.getUsuarioNickName();
             Usuario usuarioNickNameNew = miembro.getUsuarioNickName();
             List<Miembroxtransaccion> miembroxtransaccionListOld = persistentMiembro.getMiembroxtransaccionList();
@@ -163,6 +175,10 @@ public class MiembroJpaController implements Serializable {
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
+            if (grupoGrupoIdNew != null) {
+                grupoGrupoIdNew = em.getReference(grupoGrupoIdNew.getClass(), grupoGrupoIdNew.getGrupoId());
+                miembro.setGrupoGrupoId(grupoGrupoIdNew);
+            }
             if (usuarioNickNameNew != null) {
                 usuarioNickNameNew = em.getReference(usuarioNickNameNew.getClass(), usuarioNickNameNew.getNickName());
                 miembro.setUsuarioNickName(usuarioNickNameNew);
@@ -189,6 +205,14 @@ public class MiembroJpaController implements Serializable {
             historialListNew = attachedHistorialListNew;
             miembro.setHistorialList(historialListNew);
             miembro = em.merge(miembro);
+            if (grupoGrupoIdOld != null && !grupoGrupoIdOld.equals(grupoGrupoIdNew)) {
+                grupoGrupoIdOld.getMiembroList().remove(miembro);
+                grupoGrupoIdOld = em.merge(grupoGrupoIdOld);
+            }
+            if (grupoGrupoIdNew != null && !grupoGrupoIdNew.equals(grupoGrupoIdOld)) {
+                grupoGrupoIdNew.getMiembroList().add(miembro);
+                grupoGrupoIdNew = em.merge(grupoGrupoIdNew);
+            }
             if (usuarioNickNameOld != null && !usuarioNickNameOld.equals(usuarioNickNameNew)) {
                 usuarioNickNameOld.getMiembroList().remove(miembro);
                 usuarioNickNameOld = em.merge(usuarioNickNameOld);
@@ -284,6 +308,11 @@ public class MiembroJpaController implements Serializable {
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
+            Grupo grupoGrupoId = miembro.getGrupoGrupoId();
+            if (grupoGrupoId != null) {
+                grupoGrupoId.getMiembroList().remove(miembro);
+                grupoGrupoId = em.merge(grupoGrupoId);
+            }
             Usuario usuarioNickName = miembro.getUsuarioNickName();
             if (usuarioNickName != null) {
                 usuarioNickName.getMiembroList().remove(miembro);
@@ -343,8 +372,7 @@ public class MiembroJpaController implements Serializable {
             em.close();
         }
     }
-    
-     public int getMaxId()
+    public int getMaxId()
     {
         EntityManager em = getEntityManager();
         Query query = em.createNativeQuery("SELECT MAX(Miembro_id),MIN(Miembro_id) FROM miembro");
@@ -353,4 +381,5 @@ public class MiembroJpaController implements Serializable {
         
         return Integer.parseInt(max.toString());
     }
+
 }

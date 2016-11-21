@@ -21,16 +21,16 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author willi
+ * @author johanmurillo
  */
 @Entity
 @Table(name = "GRUPO")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Grupo.findAll", query = "SELECT g FROM Grupo g")
-    , @NamedQuery(name = "Grupo.findByGrupoId", query = "SELECT g FROM Grupo g WHERE g.grupoId = :grupoId")
-    , @NamedQuery(name = "Grupo.findByNombre", query = "SELECT g FROM Grupo g WHERE g.nombre = :nombre")
-    , @NamedQuery(name = "Grupo.findByEstado", query = "SELECT g FROM Grupo g WHERE g.estado = :estado")})
+    @NamedQuery(name = "Grupo.findAll", query = "SELECT g FROM Grupo g"),
+    @NamedQuery(name = "Grupo.findByGrupoId", query = "SELECT g FROM Grupo g WHERE g.grupoId = :grupoId"),
+    @NamedQuery(name = "Grupo.findByNombre", query = "SELECT g FROM Grupo g WHERE g.nombre = :nombre"),
+    @NamedQuery(name = "Grupo.findByEstado", query = "SELECT g FROM Grupo g WHERE g.estado = :estado")})
 public class Grupo implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -42,6 +42,8 @@ public class Grupo implements Serializable {
     private String nombre;
     @Column(name = "ESTADO")
     private String estado;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "grupoGrupoId")
+    private List<Miembro> miembroList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "grupo")
     private List<Historial> historialList;
 
@@ -74,6 +76,15 @@ public class Grupo implements Serializable {
 
     public void setEstado(String estado) {
         this.estado = estado;
+    }
+
+    @XmlTransient
+    public List<Miembro> getMiembroList() {
+        return miembroList;
+    }
+
+    public void setMiembroList(List<Miembro> miembroList) {
+        this.miembroList = miembroList;
     }
 
     @XmlTransient

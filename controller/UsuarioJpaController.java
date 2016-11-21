@@ -17,8 +17,6 @@ import entities.Usuario;
 import java.util.ArrayList;
 import java.util.List;
 import entities.Miembro;
-import java.util.Objects;
-import java.util.Vector;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
@@ -285,7 +283,7 @@ public class UsuarioJpaController implements Serializable {
             em.close();
         }
     }
-    public List< Usuario > getContactos( String user )
+     public List< Usuario > getContactos( String user )
     {
         EntityManager em = getEntityManager();
         Query query;

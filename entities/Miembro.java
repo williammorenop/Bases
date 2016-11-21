@@ -24,19 +24,19 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author willi
+ * @author johanmurillo
  */
 @Entity
 @Table(name = "MIEMBRO")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Miembro.findAll", query = "SELECT m FROM Miembro m")
-    , @NamedQuery(name = "Miembro.findByEstado", query = "SELECT m FROM Miembro m WHERE m.estado = :estado")
-    , @NamedQuery(name = "Miembro.findByMiembroId", query = "SELECT m FROM Miembro m WHERE m.miembroId = :miembroId")
-    , @NamedQuery(name = "Miembro.findByMonto", query = "SELECT m FROM Miembro m WHERE m.monto = :monto")
-    , @NamedQuery(name = "Miembro.findByTipo", query = "SELECT m FROM Miembro m WHERE m.tipo = :tipo")
-    , @NamedQuery(name = "Miembro.findByMonto1", query = "SELECT m FROM Miembro m WHERE m.monto1 = :monto1")
-    , @NamedQuery(name = "Miembro.findByAfectadoId", query = "SELECT m FROM Miembro m WHERE m.afectadoId = :afectadoId")})
+    @NamedQuery(name = "Miembro.findAll", query = "SELECT m FROM Miembro m"),
+    @NamedQuery(name = "Miembro.findByEstado", query = "SELECT m FROM Miembro m WHERE m.estado = :estado"),
+    @NamedQuery(name = "Miembro.findByMiembroId", query = "SELECT m FROM Miembro m WHERE m.miembroId = :miembroId"),
+    @NamedQuery(name = "Miembro.findByMonto", query = "SELECT m FROM Miembro m WHERE m.monto = :monto"),
+    @NamedQuery(name = "Miembro.findByTipo", query = "SELECT m FROM Miembro m WHERE m.tipo = :tipo"),
+    @NamedQuery(name = "Miembro.findByMonto2", query = "SELECT m FROM Miembro m WHERE m.monto2 = :monto2"),
+    @NamedQuery(name = "Miembro.findByAfectadoId", query = "SELECT m FROM Miembro m WHERE m.afectadoId = :afectadoId")})
 public class Miembro implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -51,10 +51,13 @@ public class Miembro implements Serializable {
     private BigInteger monto;
     @Column(name = "TIPO")
     private Short tipo;
-    @Column(name = "MONTO1")
-    private Long monto1;
+    @Column(name = "MONTO2")
+    private BigInteger monto2;
     @Column(name = "AFECTADO_ID")
     private Short afectadoId;
+    @JoinColumn(name = "GRUPO_GRUPO_ID", referencedColumnName = "GRUPO_ID")
+    @ManyToOne(optional = false)
+    private Grupo grupoGrupoId;
     @JoinColumn(name = "USUARIO_NICK_NAME", referencedColumnName = "NICK_NAME")
     @ManyToOne(optional = false)
     private Usuario usuarioNickName;
@@ -109,12 +112,12 @@ public class Miembro implements Serializable {
         this.tipo = tipo;
     }
 
-    public Long getMonto1() {
-        return monto1;
+    public BigInteger getMonto2() {
+        return monto2;
     }
 
-    public void setMonto1(Long monto1) {
-        this.monto1 = monto1;
+    public void setMonto2(BigInteger monto2) {
+        this.monto2 = monto2;
     }
 
     public Short getAfectadoId() {
@@ -123,6 +126,14 @@ public class Miembro implements Serializable {
 
     public void setAfectadoId(Short afectadoId) {
         this.afectadoId = afectadoId;
+    }
+
+    public Grupo getGrupoGrupoId() {
+        return grupoGrupoId;
+    }
+
+    public void setGrupoGrupoId(Grupo grupoGrupoId) {
+        this.grupoGrupoId = grupoGrupoId;
     }
 
     public Usuario getUsuarioNickName() {

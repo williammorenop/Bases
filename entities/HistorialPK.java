@@ -15,7 +15,7 @@ import javax.persistence.TemporalType;
 
 /**
  *
- * @author willi
+ * @author johanmurillo
  */
 @Embeddable
 public class HistorialPK implements Serializable {
