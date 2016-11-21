@@ -231,6 +231,7 @@ public class CrearGrupo extends javax.swing.JFrame {
                                 Miembro miembro = new Miembro( idMiembro  );
                                 miembro.setMonto(BigInteger.ZERO);
                                 miembro.setUsuarioNickName( new Usuario((String)matriz[ i ][ 0 ]) );
+                                miembro.setGrupoGrupoId(grupo);
                                   try {
                                       controladorMiembro.create(miembro);
                                        System.out.println("se creo el miembro "+ idMiembro);
@@ -255,6 +256,8 @@ public class CrearGrupo extends javax.swing.JFrame {
                                 Miembro miembro = new Miembro( idMiembro  );
                                 miembro.setMonto(BigInteger.ZERO);
                                 miembro.setUsuarioNickName( new Usuario(user) );
+                                miembro.setGrupoGrupoId(grupo);
+
                                   try {
                                       controladorMiembro.create(miembro);
                                        System.out.println("se creo el miembro "+ idMiembro);
