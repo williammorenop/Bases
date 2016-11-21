@@ -66,20 +66,17 @@ public class CrearGrupo extends javax.swing.JFrame {
         this.crearTablaInfo(user);
         this.jPanel2.setVisible(true);
         
-         this.jButton3.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e)
-            {
-            };
-        });
-         this.jButton4.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e)
-            {
-            };
-        });
+        
+         
          short _grupoId = (short) grupoId;
+         
+         this.jTextField1.setText(controladorGrupo.findGrupo(_grupoId).getNombre());
+         
          this.agregarLider(_grupoId);
          this.agregarMiembro(user, _grupoId);
-         this.jTextField1.setText(controladorGrupo.findGrupo(_grupoId).getNombre());
+         this.eliminarMiembro();
+         this.disolverGrupo(user, _grupoId);
+         
          
          
     }
@@ -125,9 +122,9 @@ public class CrearGrupo extends javax.swing.JFrame {
 
         jButton2.setText("+miembro");
 
-        jButton3.setText("res. debt");
+        jButton3.setText("-miembro");
 
-        jButton4.setText("limp. debt");
+        jButton4.setText("Disolver grupo");
 
         jButton5.setText("+Lider");
 
@@ -170,14 +167,11 @@ public class CrearGrupo extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(161, Short.MAX_VALUE)
+                .addContainerGap(155, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jButton1)
                         .addGap(212, 212, 212))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(126, 126, 126))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(155, 155, 155))
@@ -185,7 +179,10 @@ public class CrearGrupo extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
                             .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(189, 189, 189))))
+                        .addGap(189, 189, 189))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(103, 103, 103))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -420,6 +417,24 @@ public class CrearGrupo extends javax.swing.JFrame {
                       JOptionPane.showMessageDialog(null,"El lider no se pudo agregar","Agregar Lider",JOptionPane.ERROR_MESSAGE);
                   }
                
+            };
+        });
+    }
+    private void eliminarMiembro()
+    {
+         this.jButton3.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e)
+            {
+                
+            };
+        });
+    }
+    private void disolverGrupo( String user, short idGrupo )
+    {
+        this.jButton4.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e)
+            {
+                controladorGrupo.findGrupo(idGrupo).setEstado("Disuelto");
             };
         });
     }

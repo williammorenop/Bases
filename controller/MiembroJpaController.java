@@ -21,7 +21,9 @@ import java.util.List;
 import entities.Miembroxfactura;
 import entities.Historial;
 import entities.Miembro;
+import entities.Retornomainmentu;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
@@ -393,5 +395,24 @@ public class MiembroJpaController implements Serializable {
         else 
                 return true;
     }
+    public List <Miembro>  viewGrupo(short grupoId)
+     {
+         
+ EntityManager em = getEntityManager();
+ Query query = em.createNativeQuery("  select usuario.nickName , NVL(SUM(miembroxtransaccion.tipo * miembroxtransaccion.monto),0) as tota from usuario inner join miembro on (usuario.NICK_NAME = miembro.USUARIO_NICK_NAME) inner join grupo on (miembro.GRUPO_GRUPO_ID = grupo.GRUPO_ID) left outer join miembroxtransaccion on (miembro.MIEMBRO_ID = MIEMBROXTRANSACCION.MIEMBRO_MIEMBRO_ID) where grupo.grupoID = ? group by usuario.nickname\n");
+ query.setParameter(1, grupoId);
+ List< Object[] >  temp = query.getResultList();
+        List< Miembro > result = new ArrayList< Miembro >();
+        for( Object[] o : temp )
+        {
+            Miembro us = new Miembro();
+            us.setUsuarioNickName(new Usuario((String)(o[0])));
+            us.setMonto(new BigInteger(o[1].toString()));
+            
+            result.add( us );
+        }
+        
+        return result;
+ }
 
 }
