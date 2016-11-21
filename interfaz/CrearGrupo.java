@@ -13,6 +13,7 @@ import controller.UsuarioJpaController;
 import entities.Grupo;
 import entities.Historial;
 import entities.Miembro;
+import entities.Rol;
 import entities.Usuario;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -217,6 +218,7 @@ public class CrearGrupo extends javax.swing.JFrame {
                               grupo.setEstado(estado);
                               grupo.setNombre(name);
                               short tipo = 0;
+                              Rol rol  = new Rol(tipo);
                             try {
                                 controladorGrupo.create(grupo);
                                 System.out.println("se creo el grupo "+ name);
@@ -237,9 +239,9 @@ public class CrearGrupo extends javax.swing.JFrame {
                                       Logger.getLogger(CrearGrupo.class.getName()).log(Level.SEVERE, null, ex);
                                   }
                                   GregorianCalendar gc = new GregorianCalendar();
-                                 
+                                 System.out.println(gc.getTime().toString()+" "+idMiembro+" "+ idGrupo+" " + tipo );
                                   try {
-                                      controladorHistorial.create( new Historial(gc.getTime(),idMiembro,idGrupo,tipo) ) ;
+                                      controladorHistorial.create( new Historial(gc.getTime() ,miembro,grupo,rol) ) ;
                                                                       System.out.println("se creo el Historial "+ idMiembro + " " + idGrupo +" "+tipo);
 
                                   } catch (Exception ex) {
@@ -248,6 +250,7 @@ public class CrearGrupo extends javax.swing.JFrame {
 
                             }
                             tipo = 1;
+                            rol.setRolId(tipo);
                             idMiembro++;
                                 Miembro miembro = new Miembro( idMiembro  );
                                 miembro.setMonto(BigInteger.ZERO);
@@ -262,8 +265,8 @@ public class CrearGrupo extends javax.swing.JFrame {
                                   GregorianCalendar gc = new GregorianCalendar();
                                  
                                   try {
-                                      controladorHistorial.create( new Historial(gc.getTime(),idMiembro,idGrupo,tipo) ) ;
-                                        System.out.println("se creo el Historial "+ idMiembro + " " + idGrupo +" "+tipo);
+                                     controladorHistorial.create( new Historial(gc.getTime() ,miembro,grupo,rol) ) ;
+                                                                      System.out.println("se creo el Historial "+ idMiembro + " " + idGrupo +" "+tipo);
 
                                   } catch (Exception ex) {
                                       Logger.getLogger(CrearGrupo.class.getName()).log(Level.SEVERE, null, ex);

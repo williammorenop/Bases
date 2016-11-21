@@ -51,8 +51,11 @@ public class Historial implements Serializable {
         this.historialPK = historialPK;
     }
 
-    public Historial(Date fecha, short miembroMiembroId, short grupoGrupoId, short rolRolId) {
-        this.historialPK = new HistorialPK(fecha, miembroMiembroId, grupoGrupoId, rolRolId);
+    public Historial(Date fecha, Miembro miembroMiembroId, Grupo grupoGrupoId, Rol rolRolId) {
+        this.miembro = miembroMiembroId;
+        this.grupo = grupoGrupoId;
+        this.rol = rolRolId;
+        this.historialPK = new HistorialPK(fecha, miembroMiembroId.getMiembroId(), grupoGrupoId.getGrupoId(), rolRolId.getRolId());
     }
 
     public HistorialPK getHistorialPK() {
