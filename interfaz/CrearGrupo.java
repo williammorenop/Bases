@@ -6,14 +6,26 @@
 package interfaz;
 
 
+import controller.GrupoJpaController;
+import controller.HistorialJpaController;
+import controller.MiembroJpaController;
 import controller.UsuarioJpaController;
+import entities.Grupo;
+import entities.Historial;
+import entities.Miembro;
 import entities.Usuario;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.math.BigInteger;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Objects;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.swing.JTable;
@@ -28,15 +40,18 @@ public class CrearGrupo extends javax.swing.JFrame {
 	private String[] nombresContacts={
 			"Nombre","Email"
 			};
+        private Object[][] matriz;
+        
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("finalPU");
         UsuarioJpaController controlador = new UsuarioJpaController(emf);
         /**
      * Creates new form CrearGrupo
      */
     public CrearGrupo( String user ) {
+        
         initComponents();
         this.crearTablaInfo(user);
-        
+        other(user);
     }
 
     /**
@@ -169,7 +184,7 @@ public class CrearGrupo extends javax.swing.JFrame {
 
     private void crearTablaInfo( String user ) {
                 List< Usuario > temp =  controlador.getContactos(user) ;
-                Object[][] matriz = new Object[temp.size()][2];
+                 matriz = new Object[temp.size()][2];
                 for( int i = 0 ; i  < temp.size() ; ++i )
                 {
                     matriz[ i ][ 0 ] = temp.get( i ).getNickName();
@@ -185,13 +200,71 @@ public class CrearGrupo extends javax.swing.JFrame {
     
     private void other( String user)
     {
-        
+        GrupoJpaController controladorGrupo = new GrupoJpaController(emf);
+        MiembroJpaController controladorMiembro = new MiembroJpaController(emf);
+        HistorialJpaController controladorHistorial = new HistorialJpaController(emf);
+
         this.jButton1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
                               int[] users = jTable1.getSelectedRows();
                               String name = jTextField1.getText();
                               String estado = "BIEN";
+                              short idMiembro = (short)controladorMiembro.getMaxId();
+                              short idGrupo = (short)controladorGrupo.getMaxId();
+                              idGrupo++;
+                              Grupo grupo = new Grupo( idGrupo );
+                              grupo.setEstado(estado);
+                              grupo.setNombre(name);
+                              short tipo = 0;
+                            try {
+                                controladorGrupo.create(grupo);
+                                System.out.println("se creo el grupo "+ name);
+                            } catch (Exception ex) {
+                                Logger.getLogger(CrearGrupo.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            for( int i = 0 ; i < users.length ; ++i )
+                            {
+                               idMiembro++;
+                                Miembro miembro = new Miembro( idMiembro  );
+                                miembro.setMonto(BigInteger.ZERO);
+                                miembro.setUsuarioNickName( new Usuario((String)matriz[ i ][ 0 ]) );
+                                  try {
+                                      controladorMiembro.create(miembro);
+                                  } catch (Exception ex) {
+                                      Logger.getLogger(CrearGrupo.class.getName()).log(Level.SEVERE, null, ex);
+                                  }
+                                  GregorianCalendar gc = new GregorianCalendar();
+                                 
+                                  try {
+                                      controladorHistorial.create( new Historial(gc.getTime(),idMiembro,idGrupo,tipo) ) ;
+                                  } catch (Exception ex) {
+                                      Logger.getLogger(CrearGrupo.class.getName()).log(Level.SEVERE, null, ex);
+                                  }
+                                 System.out.println("se creo el miembro "+ idMiembro);
+                                System.out.println("se creo el Historial "+ idMiembro + " " + idGrupo +" "+tipo);
+
+                            }
+                            tipo = 1;
+                            idMiembro++;
+                                Miembro miembro = new Miembro( idMiembro  );
+                                miembro.setMonto(BigInteger.ZERO);
+                                miembro.setUsuarioNickName( new Usuario(user) );
+                                  try {
+                                      controladorMiembro.create(miembro);
+                                  } catch (Exception ex) {
+                                      Logger.getLogger(CrearGrupo.class.getName()).log(Level.SEVERE, null, ex);
+                                  }
+                                  GregorianCalendar gc = new GregorianCalendar();
+                                 
+                                  try {
+                                      controladorHistorial.create( new Historial(gc.getTime(),idMiembro,idGrupo,tipo) ) ;
+                                  } catch (Exception ex) {
+                                      Logger.getLogger(CrearGrupo.class.getName()).log(Level.SEVERE, null, ex);
+                                  }
+                             
+                                 System.out.println("se creo el miembro "+ idMiembro);
+                                System.out.println("se creo el Historial "+ idMiembro + " " + idGrupo +" "+tipo);
                         }
 		});
     }

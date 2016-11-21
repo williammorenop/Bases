@@ -20,12 +20,13 @@ import java.util.List;
 import entities.Miembroxfactura;
 import entities.Historial;
 import entities.Miembro;
+import java.math.BigDecimal;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
 /**
  *
- * @author willi
+ * @author johanmurillo
  */
 public class MiembroJpaController implements Serializable {
 
@@ -343,4 +344,13 @@ public class MiembroJpaController implements Serializable {
         }
     }
     
+     public int getMaxId()
+    {
+        EntityManager em = getEntityManager();
+        Query query = em.createNativeQuery("SELECT MAX(Miembro_id) FROM miembro");
+        List<Object[]> results = query.getResultList();
+        BigDecimal max = (BigDecimal) results.get(0)[0];
+        
+        return Integer.parseInt(max.toString());
+    }
 }
