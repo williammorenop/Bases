@@ -7,6 +7,7 @@ package interfaz;
 
 
 import controller.UsuarioJpaController;
+import entities.Usuario;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -14,6 +15,7 @@ import java.util.Vector;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -21,8 +23,6 @@ import javax.swing.JTable;
  */
 public class CrearGrupo extends javax.swing.JFrame {
 
-    private Vector<String> columNameContacts=null;
-    private Vector<Object> dataContacts=null;
 	private String[] nombresContacts={
 			"Nombre","Email"
 			};
@@ -33,7 +33,7 @@ public class CrearGrupo extends javax.swing.JFrame {
      */
     public CrearGrupo( String user ) {
         initComponents();
-        this.jTable1 = this.crearTablaInfo(user);
+        this.crearTablaInfo(user);
     }
 
     /**
@@ -164,14 +164,20 @@ public class CrearGrupo extends javax.swing.JFrame {
 //    //    });
 //    }
 
-    private JTable crearTablaInfo( String user ) {
-		if(this.columNameContacts==null)
-			this.columNameContacts=new Vector<>(Arrays.asList(this.nombresContacts));
-                List< Objects > temp =  controlador.getContactos(user) ;
-                this.dataContacts = new Vector< Object >();
-                for( Object o : temp )
-                    this.dataContacts.add(o);
-		return new JTable(this.dataContacts,this.columNameContacts);
+    private void crearTablaInfo( String user ) {
+                List< Usuario > temp =  controlador.getContactos(user) ;
+                Object[][] matriz = new Object[temp.size()][2];
+                for( int i = 0 ; i  < temp.size() ; ++i )
+                {
+                    matriz[ i ][ 0 ] = temp.get( i ).getNickName();
+                    System.out.println( temp.get( i ).getNickName() );
+                    matriz[ i ][ 1 ] = temp.get( i ).getEmail();
+                      System.out.println( temp.get( i ).getEmail() );
+
+                }
+                DefaultTableModel model = new DefaultTableModel( matriz , this.nombresContacts );
+                this.jTable1.setModel( model );
+                repaint();
 	}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
