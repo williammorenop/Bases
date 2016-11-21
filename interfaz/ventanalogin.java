@@ -93,8 +93,11 @@ public class ventanalogin {
                             {
                                 System.out.println("aaaaaaa");
                                 JOptionPane.showMessageDialog(null, "EXITO!!","Inicio de sesion exitoso.",JOptionPane.INFORMATION_MESSAGE);
-                                menu ventanamenu= new menu();
-           			ventanamenu.frame.setVisible(true);
+                               // menu ventanamenu= new menu();
+           			//ventanamenu.frame.setVisible(true);
+                                menu2 menu=new menu2(textField.getText());
+              
+                            
                             }
                             else
                             {
