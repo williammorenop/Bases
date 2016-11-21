@@ -17,6 +17,7 @@ import javax.persistence.criteria.Root;
 import entities.Historial;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -214,5 +215,30 @@ public class GrupoJpaController implements Serializable {
         BigDecimal max = (BigDecimal) results.get(0)[0];
         
         return Integer.parseInt(max.toString());
+    }
+    
+                            public List<String> elregresodelabestia(String nickname) {
+                EntityManager em = getEntityManager();
+                
+                Query query;
+        //query = em.createNativeQuery("SELECT grupo.nombre from grupo");
+                query = em.createNativeQuery("select grupo.nombre, usuario.nombre " +
+"from usuario inner join miembro on (usuario.NICK_NAME = miembro.USUARIO_NICK_NAME) inner join historial on (miembro.MIEMBRO_ID = historial.MIEMBRO_MIEMBRO_ID) inner join grupo on (historial.GRUPO_GRUPO_ID = grupo.GRUPO_ID) " +
+"where usuario.NICK_NAME= ?");
+                query.setParameter(1, nickname);
+                List<String> results = new ArrayList<String>();
+                List< Object[] > r = query.getResultList();
+                                System.out.println(r.size());
+           for (int i = 0 ; i < r.size() ; ++i ) {
+          //  System.out.println("aaaa"+ r.get(i).length);
+            
+            String a=new String((String) r.get(i)[0]);
+            results.add(a);
+            //        System.out.println("a2a2a2a");
+
+        }
+                  System.out.println("controller.GrupoJpaController.pipiloco()");
+                return results;
+                
     }
 }
