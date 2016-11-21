@@ -21,16 +21,16 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author johanmurillo
+ * @author willi
  */
 @Entity
 @Table(name = "GRUPO")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Grupo.findAll", query = "SELECT g FROM Grupo g"),
-    @NamedQuery(name = "Grupo.findByGrupoId", query = "SELECT g FROM Grupo g WHERE g.grupoId = :grupoId"),
-    @NamedQuery(name = "Grupo.findByNombre", query = "SELECT g FROM Grupo g WHERE g.nombre = :nombre"),
-    @NamedQuery(name = "Grupo.findByEstado", query = "SELECT g FROM Grupo g WHERE g.estado = :estado")})
+    @NamedQuery(name = "Grupo.findAll", query = "SELECT g FROM Grupo g")
+    , @NamedQuery(name = "Grupo.findByGrupoId", query = "SELECT g FROM Grupo g WHERE g.grupoId = :grupoId")
+    , @NamedQuery(name = "Grupo.findByNombre", query = "SELECT g FROM Grupo g WHERE g.nombre = :nombre")
+    , @NamedQuery(name = "Grupo.findByEstado", query = "SELECT g FROM Grupo g WHERE g.estado = :estado")})
 public class Grupo implements Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -19,16 +19,16 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author johanmurillo
+ * @author willi
  */
 @Entity
 @Table(name = "MIEMBROXFACTURA")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Miembroxfactura.findAll", query = "SELECT m FROM Miembroxfactura m"),
-    @NamedQuery(name = "Miembroxfactura.findByMiembroMiembroId", query = "SELECT m FROM Miembroxfactura m WHERE m.miembroxfacturaPK.miembroMiembroId = :miembroMiembroId"),
-    @NamedQuery(name = "Miembroxfactura.findByFacturaFacturaId", query = "SELECT m FROM Miembroxfactura m WHERE m.miembroxfacturaPK.facturaFacturaId = :facturaFacturaId"),
-    @NamedQuery(name = "Miembroxfactura.findByMonto", query = "SELECT m FROM Miembroxfactura m WHERE m.monto = :monto")})
+    @NamedQuery(name = "Miembroxfactura.findAll", query = "SELECT m FROM Miembroxfactura m")
+    , @NamedQuery(name = "Miembroxfactura.findByMiembroMiembroId", query = "SELECT m FROM Miembroxfactura m WHERE m.miembroxfacturaPK.miembroMiembroId = :miembroMiembroId")
+    , @NamedQuery(name = "Miembroxfactura.findByFacturaFacturaId", query = "SELECT m FROM Miembroxfactura m WHERE m.miembroxfacturaPK.facturaFacturaId = :facturaFacturaId")
+    , @NamedQuery(name = "Miembroxfactura.findByMonto", query = "SELECT m FROM Miembroxfactura m WHERE m.monto = :monto")})
 public class Miembroxfactura implements Serializable {
 
     private static final long serialVersionUID = 1L;

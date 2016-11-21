@@ -18,17 +18,17 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author johanmurillo
+ * @author willi
  */
 @Entity
 @Table(name = "HISTORIAL")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Historial.findAll", query = "SELECT h FROM Historial h"),
-    @NamedQuery(name = "Historial.findByFecha", query = "SELECT h FROM Historial h WHERE h.historialPK.fecha = :fecha"),
-    @NamedQuery(name = "Historial.findByMiembroMiembroId", query = "SELECT h FROM Historial h WHERE h.historialPK.miembroMiembroId = :miembroMiembroId"),
-    @NamedQuery(name = "Historial.findByGrupoGrupoId", query = "SELECT h FROM Historial h WHERE h.historialPK.grupoGrupoId = :grupoGrupoId"),
-    @NamedQuery(name = "Historial.findByRolRolId", query = "SELECT h FROM Historial h WHERE h.historialPK.rolRolId = :rolRolId")})
+    @NamedQuery(name = "Historial.findAll", query = "SELECT h FROM Historial h")
+    , @NamedQuery(name = "Historial.findByFecha", query = "SELECT h FROM Historial h WHERE h.historialPK.fecha = :fecha")
+    , @NamedQuery(name = "Historial.findByMiembroMiembroId", query = "SELECT h FROM Historial h WHERE h.historialPK.miembroMiembroId = :miembroMiembroId")
+    , @NamedQuery(name = "Historial.findByGrupoGrupoId", query = "SELECT h FROM Historial h WHERE h.historialPK.grupoGrupoId = :grupoGrupoId")
+    , @NamedQuery(name = "Historial.findByRolRolId", query = "SELECT h FROM Historial h WHERE h.historialPK.rolRolId = :rolRolId")})
 public class Historial implements Serializable {
 
     private static final long serialVersionUID = 1L;

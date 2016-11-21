@@ -24,21 +24,21 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author johanmurillo
+ * @author willi
  */
 @Entity
 @Table(name = "TRANSACCION")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Transaccion.findAll", query = "SELECT t FROM Transaccion t"),
-    @NamedQuery(name = "Transaccion.findByTransaccionId", query = "SELECT t FROM Transaccion t WHERE t.transaccionId = :transaccionId"),
-    @NamedQuery(name = "Transaccion.findByFecha", query = "SELECT t FROM Transaccion t WHERE t.fecha = :fecha"),
-    @NamedQuery(name = "Transaccion.findByHora", query = "SELECT t FROM Transaccion t WHERE t.hora = :hora"),
-    @NamedQuery(name = "Transaccion.findByDescription", query = "SELECT t FROM Transaccion t WHERE t.description = :description"),
-    @NamedQuery(name = "Transaccion.findByAprobado", query = "SELECT t FROM Transaccion t WHERE t.aprobado = :aprobado"),
-    @NamedQuery(name = "Transaccion.findByTipo", query = "SELECT t FROM Transaccion t WHERE t.tipo = :tipo"),
-    @NamedQuery(name = "Transaccion.findByMonto", query = "SELECT t FROM Transaccion t WHERE t.monto = :monto"),
-    @NamedQuery(name = "Transaccion.findByAfectadoId", query = "SELECT t FROM Transaccion t WHERE t.afectadoId = :afectadoId")})
+    @NamedQuery(name = "Transaccion.findAll", query = "SELECT t FROM Transaccion t")
+    , @NamedQuery(name = "Transaccion.findByTransaccionId", query = "SELECT t FROM Transaccion t WHERE t.transaccionId = :transaccionId")
+    , @NamedQuery(name = "Transaccion.findByFecha", query = "SELECT t FROM Transaccion t WHERE t.fecha = :fecha")
+    , @NamedQuery(name = "Transaccion.findByHora", query = "SELECT t FROM Transaccion t WHERE t.hora = :hora")
+    , @NamedQuery(name = "Transaccion.findByDescription", query = "SELECT t FROM Transaccion t WHERE t.description = :description")
+    , @NamedQuery(name = "Transaccion.findByAprobado", query = "SELECT t FROM Transaccion t WHERE t.aprobado = :aprobado")
+    , @NamedQuery(name = "Transaccion.findByTipo", query = "SELECT t FROM Transaccion t WHERE t.tipo = :tipo")
+    , @NamedQuery(name = "Transaccion.findByMonto", query = "SELECT t FROM Transaccion t WHERE t.monto = :monto")
+    , @NamedQuery(name = "Transaccion.findByAfectadoId", query = "SELECT t FROM Transaccion t WHERE t.afectadoId = :afectadoId")})
 public class Transaccion implements Serializable {
 
     private static final long serialVersionUID = 1L;

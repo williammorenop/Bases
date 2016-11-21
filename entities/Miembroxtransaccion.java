@@ -19,18 +19,18 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author johanmurillo
+ * @author willi
  */
 @Entity
 @Table(name = "MIEMBROXTRANSACCION")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Miembroxtransaccion.findAll", query = "SELECT m FROM Miembroxtransaccion m"),
-    @NamedQuery(name = "Miembroxtransaccion.findByMiembroMiembroId", query = "SELECT m FROM Miembroxtransaccion m WHERE m.miembroxtransaccionPK.miembroMiembroId = :miembroMiembroId"),
-    @NamedQuery(name = "Miembroxtransaccion.findByTransaccionTransaccionId", query = "SELECT m FROM Miembroxtransaccion m WHERE m.miembroxtransaccionPK.transaccionTransaccionId = :transaccionTransaccionId"),
-    @NamedQuery(name = "Miembroxtransaccion.findByTipo", query = "SELECT m FROM Miembroxtransaccion m WHERE m.tipo = :tipo"),
-    @NamedQuery(name = "Miembroxtransaccion.findByMonto", query = "SELECT m FROM Miembroxtransaccion m WHERE m.monto = :monto"),
-    @NamedQuery(name = "Miembroxtransaccion.findByAfectadoId", query = "SELECT m FROM Miembroxtransaccion m WHERE m.afectadoId = :afectadoId")})
+    @NamedQuery(name = "Miembroxtransaccion.findAll", query = "SELECT m FROM Miembroxtransaccion m")
+    , @NamedQuery(name = "Miembroxtransaccion.findByMiembroMiembroId", query = "SELECT m FROM Miembroxtransaccion m WHERE m.miembroxtransaccionPK.miembroMiembroId = :miembroMiembroId")
+    , @NamedQuery(name = "Miembroxtransaccion.findByTransaccionTransaccionId", query = "SELECT m FROM Miembroxtransaccion m WHERE m.miembroxtransaccionPK.transaccionTransaccionId = :transaccionTransaccionId")
+    , @NamedQuery(name = "Miembroxtransaccion.findByTipo", query = "SELECT m FROM Miembroxtransaccion m WHERE m.tipo = :tipo")
+    , @NamedQuery(name = "Miembroxtransaccion.findByMonto", query = "SELECT m FROM Miembroxtransaccion m WHERE m.monto = :monto")
+    , @NamedQuery(name = "Miembroxtransaccion.findByAfectadoId", query = "SELECT m FROM Miembroxtransaccion m WHERE m.afectadoId = :afectadoId")})
 public class Miembroxtransaccion implements Serializable {
 
     private static final long serialVersionUID = 1L;

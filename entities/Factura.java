@@ -26,23 +26,23 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author johanmurillo
+ * @author willi
  */
 @Entity
 @Table(name = "FACTURA")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Factura.findAll", query = "SELECT f FROM Factura f"),
-    @NamedQuery(name = "Factura.findByFacturaId", query = "SELECT f FROM Factura f WHERE f.facturaId = :facturaId"),
-    @NamedQuery(name = "Factura.findByNombre", query = "SELECT f FROM Factura f WHERE f.nombre = :nombre"),
-    @NamedQuery(name = "Factura.findByCosto", query = "SELECT f FROM Factura f WHERE f.costo = :costo"),
-    @NamedQuery(name = "Factura.findByComprobante", query = "SELECT f FROM Factura f WHERE f.comprobante = :comprobante"),
-    @NamedQuery(name = "Factura.findByFecha", query = "SELECT f FROM Factura f WHERE f.fecha = :fecha"),
-    @NamedQuery(name = "Factura.findByHora", query = "SELECT f FROM Factura f WHERE f.hora = :hora"),
-    @NamedQuery(name = "Factura.findByUbicacion", query = "SELECT f FROM Factura f WHERE f.ubicacion = :ubicacion"),
-    @NamedQuery(name = "Factura.findByCreadorMiembro", query = "SELECT f FROM Factura f WHERE f.creadorMiembro = :creadorMiembro"),
-    @NamedQuery(name = "Factura.findByComentarios", query = "SELECT f FROM Factura f WHERE f.comentarios = :comentarios"),
-    @NamedQuery(name = "Factura.findByMonto", query = "SELECT f FROM Factura f WHERE f.monto = :monto")})
+    @NamedQuery(name = "Factura.findAll", query = "SELECT f FROM Factura f")
+    , @NamedQuery(name = "Factura.findByFacturaId", query = "SELECT f FROM Factura f WHERE f.facturaId = :facturaId")
+    , @NamedQuery(name = "Factura.findByNombre", query = "SELECT f FROM Factura f WHERE f.nombre = :nombre")
+    , @NamedQuery(name = "Factura.findByCosto", query = "SELECT f FROM Factura f WHERE f.costo = :costo")
+    , @NamedQuery(name = "Factura.findByComprobante", query = "SELECT f FROM Factura f WHERE f.comprobante = :comprobante")
+    , @NamedQuery(name = "Factura.findByFecha", query = "SELECT f FROM Factura f WHERE f.fecha = :fecha")
+    , @NamedQuery(name = "Factura.findByHora", query = "SELECT f FROM Factura f WHERE f.hora = :hora")
+    , @NamedQuery(name = "Factura.findByUbicacion", query = "SELECT f FROM Factura f WHERE f.ubicacion = :ubicacion")
+    , @NamedQuery(name = "Factura.findByCreadorMiembro", query = "SELECT f FROM Factura f WHERE f.creadorMiembro = :creadorMiembro")
+    , @NamedQuery(name = "Factura.findByComentarios", query = "SELECT f FROM Factura f WHERE f.comentarios = :comentarios")
+    , @NamedQuery(name = "Factura.findByMonto", query = "SELECT f FROM Factura f WHERE f.monto = :monto")})
 public class Factura implements Serializable {
 
     private static final long serialVersionUID = 1L;

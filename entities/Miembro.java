@@ -24,19 +24,19 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author johanmurillo
+ * @author willi
  */
 @Entity
 @Table(name = "MIEMBRO")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Miembro.findAll", query = "SELECT m FROM Miembro m"),
-    @NamedQuery(name = "Miembro.findByEstado", query = "SELECT m FROM Miembro m WHERE m.estado = :estado"),
-    @NamedQuery(name = "Miembro.findByMiembroId", query = "SELECT m FROM Miembro m WHERE m.miembroId = :miembroId"),
-    @NamedQuery(name = "Miembro.findByMonto", query = "SELECT m FROM Miembro m WHERE m.monto = :monto"),
-    @NamedQuery(name = "Miembro.findByTipo", query = "SELECT m FROM Miembro m WHERE m.tipo = :tipo"),
-    @NamedQuery(name = "Miembro.findByMonto1", query = "SELECT m FROM Miembro m WHERE m.monto1 = :monto1"),
-    @NamedQuery(name = "Miembro.findByAfectadoId", query = "SELECT m FROM Miembro m WHERE m.afectadoId = :afectadoId")})
+    @NamedQuery(name = "Miembro.findAll", query = "SELECT m FROM Miembro m")
+    , @NamedQuery(name = "Miembro.findByEstado", query = "SELECT m FROM Miembro m WHERE m.estado = :estado")
+    , @NamedQuery(name = "Miembro.findByMiembroId", query = "SELECT m FROM Miembro m WHERE m.miembroId = :miembroId")
+    , @NamedQuery(name = "Miembro.findByMonto", query = "SELECT m FROM Miembro m WHERE m.monto = :monto")
+    , @NamedQuery(name = "Miembro.findByTipo", query = "SELECT m FROM Miembro m WHERE m.tipo = :tipo")
+    , @NamedQuery(name = "Miembro.findByMonto1", query = "SELECT m FROM Miembro m WHERE m.monto1 = :monto1")
+    , @NamedQuery(name = "Miembro.findByAfectadoId", query = "SELECT m FROM Miembro m WHERE m.afectadoId = :afectadoId")})
 public class Miembro implements Serializable {
 
     private static final long serialVersionUID = 1L;
