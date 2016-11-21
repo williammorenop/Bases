@@ -382,4 +382,16 @@ public class MiembroJpaController implements Serializable {
         return Integer.parseInt(max.toString());
     }
 
+    public boolean isPosible(Miembro miembro) {
+        EntityManager em = getEntityManager();
+        Query query = em.createNativeQuery("SELECT miembro_id FROM miembro where miembro.grupo_grupo_id = ? and miembro.usuario_nick_name = ?");
+        query.setParameter(1, miembro.getGrupoGrupoId().getGrupoId());
+        query.setParameter(2, miembro.getUsuarioNickName().getNickName());
+        List<Object[]> results = query.getResultList();
+        if( results.size() > 0 ) 
+                return false;
+        else 
+                return true;
+    }
+
 }

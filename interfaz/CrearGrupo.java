@@ -29,6 +29,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -45,6 +46,9 @@ public class CrearGrupo extends javax.swing.JFrame {
         
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("finalPU");
         UsuarioJpaController controlador = new UsuarioJpaController(emf);
+        GrupoJpaController controladorGrupo = new GrupoJpaController(emf);
+        MiembroJpaController controladorMiembro = new MiembroJpaController(emf);
+        HistorialJpaController controladorHistorial = new HistorialJpaController(emf);
         /**
      * Creates new form CrearGrupo
      */
@@ -52,7 +56,32 @@ public class CrearGrupo extends javax.swing.JFrame {
         
         initComponents();
         this.crearTablaInfo(user);
+        this.jPanel2.setVisible(false);
+
         other(user);
+    }
+    public CrearGrupo( String user , int grupoId ) {
+        
+        initComponents();
+        this.crearTablaInfo(user);
+        this.jPanel2.setVisible(true);
+        
+         this.jButton3.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e)
+            {
+            };
+        });
+         this.jButton4.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e)
+            {
+            };
+        });
+         short _grupoId = (short) grupoId;
+         this.agregarLider(_grupoId);
+         this.agregarMiembro(user, _grupoId);
+         this.jTextField1.setText(controladorGrupo.findGrupo(_grupoId).getNombre());
+         
+         
     }
 
     /**
@@ -65,17 +94,19 @@ public class CrearGrupo extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
+        jTextField1 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setText("Administrar grupos");
-
-        jTextField1.setText("Ingrese nombre");
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -92,61 +123,92 @@ public class CrearGrupo extends javax.swing.JFrame {
 
         jButton1.setText("Listo");
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(71, 71, 71)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(23, 23, 23)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(103, 103, 103)
-                        .addComponent(jButton1)))
-                .addContainerGap(42, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        jButton2.setText("+miembro");
+
+        jButton3.setText("res. debt");
+
+        jButton4.setText("limp. debt");
+
+        jButton5.setText("+Lider");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton2)
+                    .addComponent(jButton3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton4)
+                    .addComponent(jButton5)))
+        );
+
+        jTextField1.setText("Ingrese nombre");
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap(161, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(123, 123, 123)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(71, 71, 71)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(62, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addGap(212, 212, 212))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(126, 126, 126))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(155, 155, 155))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(189, 189, 189))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(23, 23, 23)
+                .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton1)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -201,9 +263,7 @@ public class CrearGrupo extends javax.swing.JFrame {
     
     private void other( String user)
     {
-        GrupoJpaController controladorGrupo = new GrupoJpaController(emf);
-        MiembroJpaController controladorMiembro = new MiembroJpaController(emf);
-        HistorialJpaController controladorHistorial = new HistorialJpaController(emf);
+        
 
         this.jButton1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -279,11 +339,98 @@ public class CrearGrupo extends javax.swing.JFrame {
 		});
     }
     
+    private void agregarMiembro(  String user ,short idGrupo )
+    {
+        this.jButton2.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e)
+            {
+                int[] users = jTable1.getSelectedRows();
+                short idMiembro = (short)controladorMiembro.getMaxId();
+                for( int i = 0 ; i < users.length ; ++i )
+               {
+                idMiembro++;
+                Miembro miembro = new Miembro( idMiembro  );
+                miembro.setMonto(BigInteger.ZERO);
+                miembro.setUsuarioNickName( new Usuario((String)matriz[ i ][ 0 ]) );
+                Grupo grupo = new Grupo(idGrupo);
+                miembro.setGrupoGrupoId(grupo);
+                short tipo = 0;
+                Rol rol = new Rol(tipo);
+                if( controladorMiembro.isPosible(miembro) )
+                {
+                  try {
+                      controladorMiembro.create(miembro);
+                       System.out.println("se creo el miembro "+ idMiembro);
 
+                  } catch (Exception ex) {
+                      Logger.getLogger(CrearGrupo.class.getName()).log(Level.SEVERE, null, ex);
+                  }
+                  GregorianCalendar gc = new GregorianCalendar();
+                // System.out.println(gc.getTime().toString()+" "+idMiembro+" "+ idGrupo+" " + tipo );
+                  try {
+                      controladorHistorial.create( new Historial(gc.getTime() ,miembro,grupo,rol) ) ;
+                                                      //System.out.println("se creo el Historial "+ idMiembro + " " + idGrupo +" "+tipo);
+                         JOptionPane.showMessageDialog(null,"El miembro "+miembro.getUsuarioNickName().getNickName()+" se agrego correctamente","Agregar miembro",JOptionPane.INFORMATION_MESSAGE);                               //System.out.println("se creo el Historial "+ idMiembro + " " + idGrupo +" "+tipo);
+
+                  } catch (Exception ex) {
+                      Logger.getLogger(CrearGrupo.class.getName()).log(Level.SEVERE, null, ex);
+                                             JOptionPane.showMessageDialog(null,"El miembro "+miembro.getUsuarioNickName().getNickName()+" no se pudo agregar correctamente","Agregar miembro",JOptionPane.ERROR_MESSAGE);                               //System.out.println("se creo el Historial "+ idMiembro + " " + idGrupo +" "+tipo);
+
+                  }
+                    }
+                else
+                {
+                    JOptionPane.showMessageDialog(null,"El miembro "+miembro.getUsuarioNickName().getNickName()+" ya esta agregado","Agregar miembro",JOptionPane.ERROR_MESSAGE);
+                }
+               }
+            };
+        });
+    }
+    private void agregarLider( short grupoId )
+    {
+     this.jButton5.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e)
+            {
+                int users = jTable1.getSelectedRow();
+                short idMiembro = (short)controladorMiembro.getMaxId();
+                
+                idMiembro++;
+                Miembro miembro = new Miembro( idMiembro  );
+                miembro.setMonto(BigInteger.ZERO);
+                miembro.setUsuarioNickName( new Usuario((String)matriz[ users ][ 0 ]) );
+                Grupo grupo = new Grupo(grupoId);
+                miembro.setGrupoGrupoId(grupo);
+                short tipo = 1;
+                Rol rol = new Rol(tipo);
+                  try {
+                      controladorMiembro.create(miembro);
+                       System.out.println("se creo el miembro "+ idMiembro);
+
+                  } catch (Exception ex) {
+                      Logger.getLogger(CrearGrupo.class.getName()).log(Level.SEVERE, null, ex);
+                  }
+                  GregorianCalendar gc = new GregorianCalendar();
+                // System.out.println(gc.getTime().toString()+" "+idMiembro+" "+ idGrupo+" " + tipo );
+                  try {
+                      controladorHistorial.create( new Historial(gc.getTime() ,miembro,grupo,rol) ) ;
+                       JOptionPane.showMessageDialog(null,"El lider se agrego correctamente","Agregar Lider",JOptionPane.INFORMATION_MESSAGE);                               //System.out.println("se creo el Historial "+ idMiembro + " " + idGrupo +" "+tipo);
+
+                  } catch (Exception ex) {
+                      Logger.getLogger(CrearGrupo.class.getName()).log(Level.SEVERE, null, ex);
+                      JOptionPane.showMessageDialog(null,"El lider no se pudo agregar","Agregar Lider",JOptionPane.ERROR_MESSAGE);
+                  }
+               
+            };
+        });
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;

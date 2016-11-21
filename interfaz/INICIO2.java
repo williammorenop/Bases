@@ -72,7 +72,7 @@ public class INICIO2 extends JFrame {
                         @Override
 			public void actionPerformed(ActionEvent e) {
 				
-                      CrearGrupo grupo = new CrearGrupo("juaco");
+                      CrearGrupo grupo = new CrearGrupo("juaco",1);
                       grupo.setVisible(true);
     //                            Usuario hola=new Usuario("pero", "hater", "wrayan");
       ////                          Usuario hola1=new Usuario("riro", "heater", "wwqwrayan");
